@@ -16,7 +16,7 @@
         android:id="@+id/layout_demo_buttons"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:background="@android:color/black"
+        android:background="#050246"
         android:visibility="gone" >
 
         <CheckBox
@@ -38,17 +38,18 @@
             android:clickable="true"
             android:onClick="checkNeverShowAgain"
             android:text="@string/text_never_again"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium.Inverse" />
+            android:textColor="#FFEC06"
+             />
 
         <Button
             android:id="@id/button_demo_finish"
-            style="@android:style/Widget.DeviceDefault.Light.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="7dp"
             android:onClick="finish"
+            android:textColor="#1B5900"
             android:text="@string/text_OK" />
     </RelativeLayout>
 

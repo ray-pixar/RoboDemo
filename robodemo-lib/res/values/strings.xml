@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Demo</string>
-    <string name="text_OK">OK</string>
-    <string name="text_never_again">Never show again</string>
+    <string name="app_name">راهنما</string>
+    <string name="text_OK">باشه</string>
+    <string name="text_never_again">عدم نمایش دوباره</string>
 </resources>

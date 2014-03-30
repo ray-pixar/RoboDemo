@@ -82,7 +82,7 @@ public abstract class DemoActivity extends Activity {
         drawView.setDrawViewAdapter( getDrawViewAdapter() );
     }
 
-    protected DrawView getDrawView() {
+    private DrawView getDrawView() {
         return drawView;
     }
 
@@ -113,11 +113,7 @@ public abstract class DemoActivity extends Activity {
     }
 
     public void onTap( View view ) {
-        if ( drawView.isAnimationTerminated() ) {
-            drawView.resetAnimation();
-        } else {
-            drawView.terminateAnimation();
-        }
+        drawView.cycleAnimationToEnd();
     }
 
     public void checkNeverShowAgain( View view ) {

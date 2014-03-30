@@ -31,15 +31,15 @@ public class DrawView extends View {
     /**
      * The defaut delay between points in animation in ms.
      */
-    private static final long DELAY_BETWEEN_POINTS = 2000;
+    private static final long DELAY_BETWEEN_POINTS = 30000;
 
     private DrawViewAdapter drawViewAdapter;
 
     private AnimatorHandler handler;
     private int currentPointPositionToDisplay = 0;
     private long delayBetweenPoints = DELAY_BETWEEN_POINTS;
-    private boolean isShowingAllPointsAtTheEndOfAnimation = true;
-    private boolean isDrawingOnePointAtATime = false;
+    private boolean isShowingAllPointsAtTheEndOfAnimation = false;
+    private boolean isDrawingOnePointAtATime = true;
 
     private AnimationListener animationListener;
 
@@ -68,7 +68,8 @@ public class DrawView extends View {
     @Override
     public void onDraw( Canvas canvas ) {
         super.onDraw( canvas );
-
+        if(drawViewAdapter == null)
+        	return;
         if ( isAnimationTerminated() ) {
             if ( isShowingAllPointsAtTheEndOfAnimation ) {
                 for ( int index = 0; index < drawViewAdapter.getPointsCount(); index++ ) {
@@ -99,12 +100,22 @@ public class DrawView extends View {
     }
 
     public boolean isAnimationTerminated() {
-        return currentPointPositionToDisplay >= getDrawViewAdapter().getPointsCount() - 1;
+   		return currentPointPositionToDisplay >= getDrawViewAdapter().getPointsCount() - 1;
     }
 
     /**
      * Restarts the animation from the beginning.
      */
+    
+    public void cycleAnimationToEnd()
+    {
+    	if ( isAnimationTerminated() ) {
+    		resetAnimation();
+        } else {      	
+        	showNextPoint();
+        }
+    }
+    
     public void resetAnimation() {
         handler.removeMessages( AnimatorHandler.ANIMATION_MESSAGE_ID );
         currentPointPositionToDisplay = 0;

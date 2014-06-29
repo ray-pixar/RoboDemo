@@ -162,10 +162,14 @@ import android.view.WindowManager;
         else if(point.y < 2 * screenHeight / 3)
         {
         	textY = point.y - textLayout.getHeight() - drawable.getIntrinsicHeight() / 2;
+        	if(usemarginY == true)
+        		textY += margin;
         }
         else
         {
-        	textY = point.y - textLayout.getHeight() - marginY;
+        	textY = point.y - textLayout.getHeight() - drawable.getIntrinsicHeight() / 2;
+        	if(usemarginY == true)
+        		textY += margin;
         }
         
         //int textX = point.x > screenWidth / 2 ? point.x - marginX - textLayout.getWidth() : point.x + marginX;

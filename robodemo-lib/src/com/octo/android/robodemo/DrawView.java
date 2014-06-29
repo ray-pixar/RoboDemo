@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -122,7 +123,7 @@ public class DrawView extends View {
         if ( animationListener != null ) {
             animationListener.onAnimationStart( null );
         }
-        handler.sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
+        //handler.sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
     }
 
     /**
@@ -210,7 +211,8 @@ public class DrawView extends View {
 
     private void initUnderTextPaint() {
         underTextPaint = new Paint();
-        underTextPaint.setColor( getResources().getColor( android.R.color.darker_gray ) );
+        //underTextPaint.setColor( getResources().getColor( android.R.color.darker_gray ) );
+        underTextPaint.setColor(0x333333);
         underTextPaint.setAlpha( 150 );
     }
 
@@ -251,7 +253,11 @@ public class DrawView extends View {
     protected void drawText( int position, Canvas canvas ) {
         Point point = drawViewAdapter.getTextPointAt( position );
         canvas.save();
-        canvas.translate( point.x, point.y );
+        
+        int[] location = new int[ 2 ];
+        this.getLocationOnScreen( location );
+        canvas.translate( point.x - location[0], point.y  - location[1]);
+        
         Layout layout = drawViewAdapter.getTextLayoutAt( position );
         doDrawUnderTextPaint( canvas, layout );
         layout.draw( canvas );
@@ -287,6 +293,12 @@ public class DrawView extends View {
         if ( drawable == null ) {
             return;
         }
+        int[] location = new int[ 2 ];
+        this.getLocationOnScreen( location );
+        Rect r = drawable.getBounds();
+        r.offset(-location[0], -location[1]);
+        drawable.setBounds(r);
+        
         doUseClearPorterDuffXfermode( canvas, drawable );
         drawable.draw( canvas );
         /*
@@ -334,7 +346,7 @@ public class DrawView extends View {
         private AnimatorHandler( DrawView drawView, long delayBetweenPoints ) {
             this.weakReference = new WeakReference< DrawView >( drawView );
             this.delayBetweenPoints = delayBetweenPoints;
-            sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
+            //sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
         }
 
         @Override
@@ -346,7 +358,7 @@ public class DrawView extends View {
                 }
                 DrawView drawView = weakReference.get();
                 drawView.showNextPoint();
-                sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
+                //sendEmptyMessageDelayed( AnimatorHandler.ANIMATION_MESSAGE_ID, delayBetweenPoints );
             }
 
         }

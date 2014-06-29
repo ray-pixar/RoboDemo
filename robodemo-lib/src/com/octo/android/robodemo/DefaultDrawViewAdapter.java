@@ -2,6 +2,7 @@ package com.octo.android.robodemo;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Point;
@@ -25,7 +26,7 @@ import android.view.WindowManager;
  * @author sni
  * 
  */
-public class DefaultDrawViewAdapter implements DrawViewAdapter {
+@SuppressLint("NewApi") public class DefaultDrawViewAdapter implements DrawViewAdapter {
 
     private static final float TEXT_MARGIN = 7;
     private static final float DEFAULT_FONT_SIZE = 22;
@@ -64,7 +65,7 @@ public class DefaultDrawViewAdapter implements DrawViewAdapter {
 
     private TextPaint initializeDefaultTextPaint() {
         TextPaint textPaint = new TextPaint();
-        textPaint.setColor( getContext().getResources().getColor( android.R.color.white ) );
+        textPaint.setColor( 0xffff00 );
         textPaint.setShadowLayer( 2.0f, 0, 2.0f, android.R.color.black );
         // http://stackoverflow.com/questions/3061930/how-to-set-unit-for-paint-settextsize
         textPaint.setTextSize( TypedValue.applyDimension( TypedValue.COMPLEX_UNIT_DIP, DEFAULT_FONT_SIZE, getContext().getResources().getDisplayMetrics() ) );
@@ -124,8 +125,51 @@ public class DefaultDrawViewAdapter implements DrawViewAdapter {
         Point point = listPoints.get( position );
         final int marginX = drawable.getIntrinsicWidth() / 4 + margin;
         final int marginY = drawable.getIntrinsicHeight() / 4 + margin;
-        int textX = point.x > screenWidth / 2 ? point.x - marginX - textLayout.getWidth() : point.x + marginX;
-        int textY = point.y > screenHeight / 2 ? point.y - marginY - textLayout.getHeight() : point.y + marginY;
+        int textX=0, textY=0;
+        boolean usemarginY = false;
+        
+        if(point.x < screenWidth / 3)
+        {
+        	 textX = point.x + marginX;
+        	 usemarginY = true;
+        } 
+        else if(point.x < screenWidth / 2)
+        {
+        	textX = point.x - textLayout.getWidth() / 2 + marginX;
+        } 
+        else if(point.x < 2 * screenWidth / 3)
+        {
+        	textX = point.x - textLayout.getWidth() / 2 - marginX;
+        }
+        else
+        {
+        	textX = point.x - textLayout.getWidth() - marginX;
+        	usemarginY = true;
+        }
+        
+        if(point.y < screenHeight / 3)
+        {
+        	textY = point.y + drawable.getIntrinsicHeight() / 2;
+        	if(usemarginY == true)
+        		textY -= margin;
+        } 
+        else if(point.y < screenHeight / 2)
+        {
+        	textY = point.y + drawable.getIntrinsicHeight() / 2;
+        	if(usemarginY == true)
+        		textY -= margin;
+        }
+        else if(point.y < 2 * screenHeight / 3)
+        {
+        	textY = point.y - textLayout.getHeight() - drawable.getIntrinsicHeight() / 2;
+        }
+        else
+        {
+        	textY = point.y - textLayout.getHeight() - marginY;
+        }
+        
+        //int textX = point.x > screenWidth / 2 ? point.x - marginX - textLayout.getWidth() : point.x + marginX;
+        //int textY = point.y > screenHeight / 2 ? point.y - marginY - textLayout.getHeight() : point.y + marginY;
         return new Point( textX, textY );
     }
 }

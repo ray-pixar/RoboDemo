@@ -1,5 +1,6 @@
 package com.octo.android.robodemo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -99,7 +100,7 @@ public class LabeledPoint extends Point implements Parcelable {
      *            the new text of the point.
      */
     public LabeledPoint( View v, String text ) {
-        this( v, 50, 0, text );
+        this( v, 50, 50, text );
     }
 
     /**
@@ -135,6 +136,10 @@ public class LabeledPoint extends Point implements Parcelable {
     public LabeledPoint( View v, float widthPercent, float heightPercent, String text ) {
         int[] location = new int[ 2 ];
         v.getLocationOnScreen( location );
+        //v.getLocationInWindow( location );
+        //this.x = location[ 0 ] + Math.round( widthPercent * v.getWidth() / 100 );
+        //this.y = location[ 1 ] + Math.round( heightPercent * v.getHeight() / 100 );
+        
         this.x = location[ 0 ] + Math.round( widthPercent * v.getMeasuredWidth() / 100 );
         this.y = location[ 1 ] + Math.round( heightPercent * v.getMeasuredHeight() / 100 );
         setText( text );
@@ -154,7 +159,7 @@ public class LabeledPoint extends Point implements Parcelable {
      * @param text
      *            the new text of the point.
      */
-    @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi") @SuppressWarnings("deprecation")
     public LabeledPoint( Activity activity, float widthPercent, float heightPercent, String text ) {
 
         Display display = activity.getWindowManager().getDefaultDisplay();
@@ -218,7 +223,7 @@ public class LabeledPoint extends Point implements Parcelable {
         /**
          * Return a new point from the data in the specified parcel.
          */
-        @Override
+        @SuppressLint("NewApi") @Override
         public LabeledPoint createFromParcel( Parcel in ) {
             LabeledPoint r = new LabeledPoint();
             r.readFromParcel( in );
